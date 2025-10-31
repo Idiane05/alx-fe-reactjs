@@ -1,1 +1,0 @@
-export default () => <p>Profile Settings Page</p>;
