@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Search from "./components/Search";
 import { fetchUserData } from "./services/githubService";
+import "./App.css";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -23,20 +24,42 @@ function App() {
   };
 
   return (
-    <div style={{ padding: "2rem" }}>
+    <div className="app-container">
       <h1>GitHub User Search</h1>
       <Search onSearch={handleSearch} />
 
-      {loading && <p>Loading...</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {loading && <div className="message loading">Loading...</div>}
+      
+      {error && (
+        <div className="message error">
+          {error}
+        </div>
+      )}
+      
       {user && (
-        <div style={{ marginTop: "1rem" }}>
-          <img src={user.avatar_url} alt={user.login} width={100} />
-          <h2>{user.name || user.login}</h2>
-          <p>{user.bio || "No bio available"}</p>
-          <a href={user.html_url} target="_blank" rel="noopener noreferrer">
-            View Profile
-          </a>
+        <div className="user-card">
+          <img 
+            src={user.avatar_url} 
+            alt={user.login}
+            className="user-avatar"
+          />
+          <div className="user-info">
+            <h2 className="user-name">{user.name || user.login}</h2>
+            <p className="user-bio">{user.bio || "No bio available"}</p>
+            <div className="user-stats">
+              <span>Followers: {user.followers}</span>
+              <span>Following: {user.following}</span>
+              <span>Repos: {user.public_repos}</span>
+            </div>
+            <a 
+              href={user.html_url} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="profile-link"
+            >
+              View GitHub Profile
+            </a>
+          </div>
         </div>
       )}
     </div>
